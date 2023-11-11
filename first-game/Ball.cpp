@@ -2,7 +2,7 @@
 
 
 Ball::Ball()
-    : Ball(10.f, { 50, 50.f }, sf::Color::White)
+    : Ball(5.f, { 50, 50.f }, sf::Color::White)
 {
 }
 
@@ -16,6 +16,9 @@ Ball::Ball(float radius_in, sf::Vector2f center_pos, sf::Color color)
     // set the origin to be the center
     // passed in value is offset from top left corner.
     ball.setOrigin(rad_vec);
+
+    vel.x = 100.0f;
+    vel.y = 50.0f;
 
     // Update position
     pos = center_pos;
@@ -49,6 +52,12 @@ void Ball::TestCollision(const Border& border)
         pos.y = box.height - radius;
         ball.setPosition(pos);
         ball.setFillColor(sf::Color::Red);
+    }
+    if (box.width - pos.x <= radius)
+    {
+        pos.x = box.width - radius;
+        ball.setPosition(pos);
+        ball.setFillColor(sf::Color::Yellow);
     }
 }
 

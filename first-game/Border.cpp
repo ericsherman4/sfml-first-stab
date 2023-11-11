@@ -5,19 +5,22 @@
 Border::Border(sf::Vector2f topleft, sf::Vector2f size, float thickness)
     : border(size)
 {
+
+    // determine the inner bounding box size.
+    // THIS WILL JUST RETURN DIMENSIONS, does  not account for positon.
+    auto bounding_box = border.getGlobalBounds();
+    bounding_box.left += thickness + topleft.x;
+    bounding_box.width = bounding_box.width - thickness + topleft.x;
+    bounding_box.height = bounding_box.height - thickness + topleft.y;
+    bounding_box.top += thickness + topleft.y;
+    inner_container = bounding_box;
+
     border.setFillColor(sf::Color::Black);
     border.setPosition(topleft);
     border.setOutlineThickness(-thickness);
     border.setOutlineColor(sf::Color::Cyan);
 
-    // determine the inner bounding box, should just be size accounted for
-    // position offset.
-    auto bounding_box = border.getGlobalBounds();
-    bounding_box.left += thickness;
-    bounding_box.width -= thickness;
-    bounding_box.height -= thickness;
-    bounding_box.top += thickness;
-    inner_container = bounding_box;
+
 
 }
 

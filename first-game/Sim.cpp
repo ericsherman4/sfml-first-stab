@@ -3,8 +3,8 @@
 
 Sim::Sim()
     : window(sf::VideoMode(1920, 1080), "First Game!"),
-    test(),
-    border({ 0,0 }, { 400,600 }, 20.f),
+    ball1(),
+    border({ 100,100 }, { 400.f,600.f }, 5.0f),
     FRAME_TIME(sf::seconds(1.f / 60.f))
 {
     window.setVerticalSyncEnabled(true);
@@ -49,8 +49,8 @@ void Sim::ProcessEvents()
 
 void Sim::Update(sf::Time dt)
 {
-    test.Update(dt);
-    test.TestCollision(border);
+    ball1.Update(dt);
+    ball1.TestCollision(border);
 
 }
 
@@ -59,7 +59,7 @@ void Sim::Display()
     window.clear();
 
     border.Display(window);
-    test.Display(window);
+    ball1.Display(window);
     
     window.display();
 }

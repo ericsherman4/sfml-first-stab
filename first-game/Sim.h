@@ -20,7 +20,7 @@ private:
     
     const sf::Time FRAME_TIME;
     sf::RenderWindow window; 
-    Ball test;
+    Ball ball1;
     Border border;
 };
 

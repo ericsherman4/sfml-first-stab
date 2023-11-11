@@ -21,6 +21,7 @@ private:
     const sf::Time FRAME_TIME;
     sf::RenderWindow window; 
     Ball ball1;
+    Ball ball2;
     Border border;
 };
 

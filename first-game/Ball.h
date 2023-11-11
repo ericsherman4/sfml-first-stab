@@ -13,6 +13,7 @@ public:
     void Display(sf::RenderWindow & window);
     void Update(sf::Time dt);
     void TestCollision(const Border& border);
+    void TestCollision(const Ball& other_ball);
 
 private:
 

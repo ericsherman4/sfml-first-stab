@@ -1,8 +1,9 @@
 #include "Ball.h"
+#include "math.h"
 
 
 Ball::Ball()
-    : Ball(5.f, { 50, 50.f }, sf::Color::White)
+    : Ball(30.f, { 50, 50.f }, sf::Color::White)
 {
 }
 
@@ -58,6 +59,26 @@ void Ball::TestCollision(const Border& border)
         pos.x = box.width - radius;
         ball.setPosition(pos);
         ball.setFillColor(sf::Color::Yellow);
+    }
+}
+
+void Ball::TestCollision(const Ball& other_ball)
+{
+    static const float double_radius2 = 4 * radius * radius;
+    sf::Vector2f diff = other_ball.pos - pos;
+    float length_sq = diff.x * diff.x + diff.y * diff.y;
+    if (length_sq < double_radius2)
+    {
+        ball.setFillColor(sf::Color::Green);
+        // diff is from center to center.
+        // want the ball to move 2*radius - diff backwards.
+        // 2*radius - diff in vector form.
+        // direction is opposite of diff.
+        sf::Vector2f normalized_diff( diff / sqrt(length_sq));
+        normalized_diff *= -(2*radius - sqrt(length_sq));
+        pos = pos + normalized_diff;
+        
+        ball.setPosition(pos);
     }
 }
 

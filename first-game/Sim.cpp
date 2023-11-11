@@ -5,8 +5,11 @@ Sim::Sim()
     : window(sf::VideoMode(1920, 1080), "First Game!"),
     player(),
     pos(INIT_X, INIT_Y),
-    vel(-10,3)
+    vel(-10,3),
+    FRAME_TIME(sf::seconds(1.f / 60.f))
 {
+    window.setVerticalSyncEnabled(true);
+
     player.setRadius(20.f);
     player.setPosition(pos);
     player.setFillColor(sf::Color::Magenta);
@@ -16,10 +19,19 @@ Sim::Sim()
 
 void Sim::Run()
 {
+    sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    // TODO: there is an even better way than this but implementation dependent
+    // https://gafferongames.com/post/fix_your_timestep/
     while (window.isOpen())
     {
-        ProcessEvents();
-        UpdateModel();
+        timeSinceLastUpdate += clock.restart();
+        while (timeSinceLastUpdate > FRAME_TIME)
+        {
+            timeSinceLastUpdate -= FRAME_TIME;
+            ProcessEvents();
+            Update(FRAME_TIME);
+        }
         Display();
     }
 }
@@ -70,26 +82,26 @@ void Sim::ProcessEvents()
     }
 }
 
-void Sim::UpdateModel()
+void Sim::Update(sf::Time dt)
 {
     sf::Vector2f movement(0.f, 0.f);
     if (isMovingDown)
     {
-        movement.y += 0.5f;
+        movement.y += SPEED;
     }
     if (isMovingRight)
     {
-        movement.x += 0.5f;
+        movement.x += SPEED;
     }
     if (isMovingLeft)
     {
-        movement.x -= 0.5f;
+        movement.x -= SPEED;
     }
     if (isMovingUp)
     {
-        movement.y -= 0.5f;
+        movement.y -= SPEED;
     }
-    player.move(movement);
+    player.move(movement * dt.asSeconds());
 
 }
 

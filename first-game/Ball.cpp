@@ -2,16 +2,16 @@
 
 
 Ball::Ball()
-    : Ball(50.f, { 50, 50.f }, sf::Color::White)
+    : Ball(10.f, { 50, 50.f }, sf::Color::White)
 {
 }
 
-Ball::Ball(float radius, sf::Vector2f center_pos, sf::Color color)
+Ball::Ball(float radius_in, sf::Vector2f center_pos, sf::Color color)
 {
-    ball.setRadius(radius);
+    ball.setRadius(radius_in);
     ball.setFillColor(color);
 
-    const sf::Vector2 rad_vec(radius, radius);
+    const sf::Vector2 rad_vec(radius_in, radius_in);
 
     // set the origin to be the center
     // passed in value is offset from top left corner.
@@ -20,6 +20,8 @@ Ball::Ball(float radius, sf::Vector2f center_pos, sf::Color color)
     // Update position
     pos = center_pos;
     ball.setPosition(pos);
+
+    radius = radius_in;
 
 }
 
@@ -41,8 +43,13 @@ void Ball::Update(sf::Time dt)
 
 void Ball::TestCollision(const Border& border)
 {
-    //if()
-    
+    auto box = border.GetRect();
+    if ((box.height - pos.y) <= radius)
+    {
+        pos.y = box.height - radius;
+        ball.setPosition(pos);
+        ball.setFillColor(sf::Color::Red);
+    }
 }
 
 

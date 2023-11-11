@@ -17,9 +17,9 @@ public:
 private:
 
     static constexpr float PIXELS_PER_METER = 25.f;
-
     sf::CircleShape ball;
     sf::Vector2f pos;
     sf::Vector2f vel;
+    float radius;
 };
 

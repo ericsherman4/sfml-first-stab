@@ -50,6 +50,7 @@ void Sim::ProcessEvents()
 void Sim::Update(sf::Time dt)
 {
     test.Update(dt);
+    test.TestCollision(border);
 
 }
 

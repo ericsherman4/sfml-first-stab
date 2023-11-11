@@ -8,9 +8,6 @@ Sim::Sim()
     FRAME_TIME(sf::seconds(1.f / 60.f))
 {
     window.setVerticalSyncEnabled(true);
-
-
-
 }
 
 void Sim::Run()
@@ -32,27 +29,6 @@ void Sim::Run()
     }
 }
 
-void Sim::HandlePlayerInput(sf::Keyboard::Key key, bool isPressed)
-{
-
-    switch (key)
-    {
-        case sf::Keyboard::Key::W:
-            //isMovingUp = isPressed;
-            break;
-        case sf::Keyboard::Key::A:
-            //isMovingLeft = isPressed;
-            break;
-        case sf::Keyboard::Key::S:
-            //isMovingDown = isPressed;
-            break;
-        case sf::Keyboard::Key::D:
-            //isMovingRight = isPressed;
-            break;
-    }
-
-}
-
 void Sim::ProcessEvents()
 {
     if (window.isOpen())
@@ -65,15 +41,8 @@ void Sim::ProcessEvents()
                 case sf::Event::Closed:
                     window.close();
                     break;
-                case sf::Event::KeyPressed:
-                    HandlePlayerInput(event.key.code, true);
-                    break;
-                case sf::Event::KeyReleased:
-                    HandlePlayerInput(event.key.code, false);
-                    break;
             }
-            if (event.type == sf::Event::Closed)
-                window.close();
+    
         }
     }
 }

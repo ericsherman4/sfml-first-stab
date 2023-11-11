@@ -6,7 +6,6 @@
 class Sim
 {
 private:
-    void HandlePlayerInput(sf::Keyboard::Key key, bool isPressed);
     void ProcessEvents();
     void Update(sf::Time dt);
     void Display();

@@ -2,15 +2,24 @@
 
 
 Ball::Ball()
-    : Ball(15.f, { 0.f, 0.f }, sf::Color::White)
+    : Ball(50.f, { 50, 50.f }, sf::Color::White)
 {
 }
 
-Ball::Ball(float radius, sf::Vector2f position, sf::Color color)
+Ball::Ball(float radius, sf::Vector2f center_pos, sf::Color color)
 {
     ball.setRadius(radius);
-    ball.setPosition(position);
     ball.setFillColor(color);
+
+    const sf::Vector2 rad_vec(radius, radius);
+
+    // set the origin to be the center
+    // passed in value is offset from top left corner.
+    ball.setOrigin(rad_vec);
+
+    // Update position
+    pos = center_pos;
+    ball.setPosition(pos);
 
 }
 
@@ -21,16 +30,19 @@ void Ball::Display(sf::RenderWindow& window)
 
 void Ball::Update(sf::Time dt)
 {
-    // meter space
-    vel.y += -9.8f * dt.asSeconds();
-
     // down the screen is positive. very annoying
-    // invert pos update to fix?
-    pos -= vel * dt.asSeconds();
+    // but right is default positive.
+    // invert y calculation and only y calculation. x is fine.
+    vel.y -= -9.8f * PIXELS_PER_METER * dt.asSeconds();
+    pos += vel * dt.asSeconds();
+    ball.setPosition(pos);
 
-    // pixel space?
-    ball.setPosition(pos * PIXELS_PER_METER);
+}
 
+void Ball::TestCollision(const Border& border)
+{
+    //if()
+    
 }
 
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Border.h"
 
 class Ball
 {
@@ -8,9 +9,10 @@ private:
 
 public:
     Ball();
-    Ball(float radius, sf::Vector2f position, sf::Color color);
+    Ball(float radius, sf::Vector2f center_pos, sf::Color color);
     void Display(sf::RenderWindow & window);
     void Update(sf::Time dt);
+    void TestCollision(const Border& border);
 
 private:
 

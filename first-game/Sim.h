@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Ball.h"
+#include "Border.h"
 
 class Sim
 {
@@ -18,14 +20,8 @@ private:
     static constexpr float SPEED = 50.f;
     
     const sf::Time FRAME_TIME;
-
     sf::RenderWindow window; 
-    sf::CircleShape player;
-    bool isMovingUp;
-    bool isMovingDown;
-    bool isMovingRight;
-    bool isMovingLeft;
-    sf::Vector2f pos;
-    sf::Vector2f vel;
+    Ball test;
+    Border border;
 };
 

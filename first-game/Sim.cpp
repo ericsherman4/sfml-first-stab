@@ -3,18 +3,14 @@
 
 Sim::Sim()
     : window(sf::VideoMode(1920, 1080), "First Game!"),
-    player(),
-    pos(INIT_X, INIT_Y),
-    vel(-10,3),
+    test(),
+    border({ 0,0 }, { 400,600 }, 20.f),
     FRAME_TIME(sf::seconds(1.f / 60.f))
 {
     window.setVerticalSyncEnabled(true);
 
-    player.setRadius(20.f);
-    player.setPosition(pos);
-    player.setFillColor(sf::Color::Magenta);
 
-    isMovingUp = isMovingDown = isMovingRight = isMovingLeft = false;
+
 }
 
 void Sim::Run()
@@ -42,16 +38,16 @@ void Sim::HandlePlayerInput(sf::Keyboard::Key key, bool isPressed)
     switch (key)
     {
         case sf::Keyboard::Key::W:
-            isMovingUp = isPressed;
+            //isMovingUp = isPressed;
             break;
         case sf::Keyboard::Key::A:
-            isMovingLeft = isPressed;
+            //isMovingLeft = isPressed;
             break;
         case sf::Keyboard::Key::S:
-            isMovingDown = isPressed;
+            //isMovingDown = isPressed;
             break;
         case sf::Keyboard::Key::D:
-            isMovingRight = isPressed;
+            //isMovingRight = isPressed;
             break;
     }
 
@@ -84,30 +80,15 @@ void Sim::ProcessEvents()
 
 void Sim::Update(sf::Time dt)
 {
-    sf::Vector2f movement(0.f, 0.f);
-    if (isMovingDown)
-    {
-        movement.y += SPEED;
-    }
-    if (isMovingRight)
-    {
-        movement.x += SPEED;
-    }
-    if (isMovingLeft)
-    {
-        movement.x -= SPEED;
-    }
-    if (isMovingUp)
-    {
-        movement.y -= SPEED;
-    }
-    player.move(movement * dt.asSeconds());
-
+    test.Update(dt);
 }
 
 void Sim::Display()
 {
     window.clear();
-    window.draw(player);
+
+    border.Display(window);
+    test.Display(window);
+    
     window.display();
 }

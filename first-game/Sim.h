@@ -14,7 +14,7 @@ public:
     void Run();
 private:
 
-    static constexpr int NUM_BALLS = 110;
+    static constexpr int NUM_BALLS = 1750;
     
     const sf::Time FRAME_TIME;
     sf::RenderWindow window; 

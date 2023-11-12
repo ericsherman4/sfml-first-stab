@@ -17,8 +17,8 @@ void Ball::Init(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color col
     {
         ball.setRadius(RADIUS);
         ball.setFillColor(color);
-        ball.setOutlineThickness(2);
-        ball.setOutlineColor(sf::Color::Red);
+        //ball.setOutlineThickness(2);
+        //ball.setOutlineColor(sf::Color::Red);
 
         // set the origin to be the center
         // passed in value is offset from top left corner.
@@ -57,25 +57,26 @@ void Ball::TestCollision(const Border& border)
     if ((box.height - curr_pos.y) <= RADIUS)
     {
         curr_pos.y = box.height - RADIUS;
-        ball.setFillColor(sf::Color::Red);
+        //ball.setFillColor(sf::Color::Red); 
     }
     else
     {
-        ball.setFillColor(sf::Color::White);
+        //ball.setFillColor(sf::Color::White); //this function added so much damn lag.
+        // could make thing to just check if its already white and if so then dont assign.
     }
     if (box.width - curr_pos.x <= RADIUS)
     {
         curr_pos.x = box.width - RADIUS;
-        ball.setFillColor(sf::Color::Yellow);
+        //ball.setFillColor(sf::Color::Yellow);
     }
     else if (curr_pos.x - box.left <= RADIUS)
     {
         curr_pos.x = box.left + RADIUS;
-        ball.setFillColor(sf::Color::Yellow);
+        //ball.setFillColor(sf::Color::Yellow);
     }
     else
     {
-        ball.setFillColor(sf::Color::White);
+        //ball.setFillColor(sf::Color::White); //this one too
     }
 }
 
@@ -86,7 +87,7 @@ void Ball::TestCollision(Ball& other_ball)
     const float DOUBLE_RAD = RADIUS * 2;
     if (length < DOUBLE_RAD)
     {
-        ball.setFillColor(sf::Color::Green);
+        //ball.setFillColor(sf::Color::Green);
         // diff is from center to center.
         // want the ball to move 2*radius - diff backwards.
         // 2*radius - diff in vector form.

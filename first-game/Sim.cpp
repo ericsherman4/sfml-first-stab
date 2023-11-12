@@ -2,16 +2,29 @@
 
 
 Sim::Sim()
-    : window(sf::VideoMode(400, 700), "First Game!"),
-    border({ 0,100 }, { 400.f,600.f }, 5.0f),
+    : window(sf::VideoMode(600, 900), "First Game!"),
+    border({ 0,300 }, { 600.f,600.f }, 5.0f),
     FRAME_TIME(sf::seconds(1.f / 60.f))
 {
+    int height = 0;
+    const int LEVEL_SIZE = NUM_BALLS / 5;
+    const int LEFT_X_START = 490;
     //window.setVerticalSyncEnabled(true);
     for (int i =0; i < NUM_BALLS; i++)
     {
+        if (i % LEVEL_SIZE == 0)
+        {
+            height = 0;
+        }
+        else
+        {
+            height++;
+        }
         balls[i].Init(
-            { 20.f, 70.0f - (static_cast<float>(i) * 70.0f) }, 
-            { 19.9f, (70.0f - (static_cast<float>(i) * 70.0f) - 2.0f) }, sf::Color::White);
+            { LEFT_X_START + ((i / LEVEL_SIZE) * 20.f), 70.0f - (20.f * height) },
+            { LEFT_X_START - 0.001f +((i / LEVEL_SIZE) * 20.f), 68.0f - (20.f * height) },
+            sf::Color::White);
+
     }
 }
 
@@ -31,6 +44,10 @@ void Sim::Run()
             Update(FRAME_TIME.asSeconds());
         }
         Display();
+
+        //ProcessEvents();
+        //Update(FRAME_TIME.asSeconds());
+        //Display();
     }
 }
 

@@ -2,11 +2,6 @@
 #include "math.h"
 
 
-Ball::Ball()
-    : Ball(30.f, { 50, 50.f }, sf::Color::White)
-{
-}
-
 Ball::Ball(float radius_in, sf::Vector2f center_pos, sf::Color color)
 {
     ball.setRadius(radius_in);
@@ -18,8 +13,8 @@ Ball::Ball(float radius_in, sf::Vector2f center_pos, sf::Color color)
     // passed in value is offset from top left corner.
     ball.setOrigin(rad_vec);
 
-    vel.x = 100.0f;
-    vel.y = 50.0f;
+    vel.x = 20.0f;
+    vel.y = 100.0f;
 
     // Update position
     pos = center_pos;
@@ -40,6 +35,7 @@ void Ball::Update(sf::Time dt)
     // but right is default positive.
     // invert y calculation and only y calculation. x is fine.
     vel.y -= -9.8f * PIXELS_PER_METER * dt.asSeconds();
+    vel.x += PIXELS_PER_METER * dt.asSeconds();
     pos += vel * dt.asSeconds();
     ball.setPosition(pos);
 
@@ -62,21 +58,22 @@ void Ball::TestCollision(const Border& border)
     }
 }
 
-void Ball::TestCollision(const Ball& other_ball)
+void Ball::TestCollision(Ball& other_ball)
 {
-    static const float double_radius2 = 4 * radius * radius;
     sf::Vector2f diff = other_ball.pos - pos;
-    float length_sq = diff.x * diff.x + diff.y * diff.y;
-    if (length_sq < double_radius2)
+    float length = sqrt(diff.x * diff.x + diff.y * diff.y);
+    if (length < (radius * 2))
     {
         ball.setFillColor(sf::Color::Green);
         // diff is from center to center.
         // want the ball to move 2*radius - diff backwards.
         // 2*radius - diff in vector form.
         // direction is opposite of diff.
-        sf::Vector2f normalized_diff( diff / sqrt(length_sq));
-        normalized_diff *= -(2*radius - sqrt(length_sq));
-        pos = pos + normalized_diff;
+        sf::Vector2f normalized_diff( diff / length);
+        normalized_diff *= ((2*radius - length)/2.f);
+        pos = pos -  normalized_diff;
+        other_ball.pos = other_ball.pos + normalized_diff;
+
         
         ball.setPosition(pos);
     }

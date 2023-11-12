@@ -13,10 +13,6 @@ public:
     Sim();
     void Run();
 private:
-
-    static constexpr float INIT_X = 500.f;
-    static constexpr float INIT_Y = 500.f;
-    static constexpr float SPEED = 50.f;
     
     const sf::Time FRAME_TIME;
     sf::RenderWindow window; 

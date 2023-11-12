@@ -3,7 +3,7 @@
 
 Sim::Sim()
     : window(sf::VideoMode(1920, 1080), "First Game!"),
-    ball1(),
+    ball1(30, { 119, 15 }, sf::Color::Magenta),
     ball2(30, {120, 50}, sf::Color::White),
     border({ 100,100 }, { 400.f,600.f }, 5.0f),
     FRAME_TIME(sf::seconds(1.f / 60.f))

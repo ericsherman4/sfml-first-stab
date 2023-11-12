@@ -7,7 +7,6 @@ class Border
 private:
 public:
     void Display(sf::RenderWindow& window) const;
-    void Update(sf::Time dt);
     Border(sf::Vector2f topleft, sf::Vector2f size, float thickness);
     sf::Rect<float> GetRect() const;
 

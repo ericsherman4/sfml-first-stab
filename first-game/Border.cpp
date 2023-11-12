@@ -34,6 +34,3 @@ void Border::Display(sf::RenderWindow& window) const
     window.draw(border);
 }
 
-void Border::Update(sf::Time dt)
-{
-}

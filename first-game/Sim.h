@@ -7,14 +7,14 @@ class Sim
 {
 private:
     void ProcessEvents();
-    void Update(sf::Time dt);
+    void Update(float dt);
     void Display();
 public:
     Sim();
     void Run();
 private:
 
-    static constexpr int NUM_BALLS = 40;
+    static constexpr int NUM_BALLS = 110;
     
     const sf::Time FRAME_TIME;
     sf::RenderWindow window; 

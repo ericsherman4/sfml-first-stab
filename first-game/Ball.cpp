@@ -1,16 +1,17 @@
 #include "Ball.h"
 #include "math.h"
 
+const sf::Vector2f Ball::GRAV(0.0f, GRAV_CONST);
+
+
 Ball::Ball()
     : initialized(false),
-    pos(0,0),
-    vel(0,0),
     ball()
 {
 
 }
 
-void Ball::Init(sf::Vector2f vel_in, sf::Vector2f center_pos, sf::Color color)
+void Ball::Init(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color color)
 {
     if (!initialized)
     {
@@ -23,54 +24,53 @@ void Ball::Init(sf::Vector2f vel_in, sf::Vector2f center_pos, sf::Color color)
         // passed in value is offset from top left corner.
         ball.setOrigin({ RADIUS, RADIUS });
 
-        vel = vel_in;
 
         // Update position
-        pos = center_pos;
-        ball.setPosition(pos);
+        curr_pos = center_pos;
+        prev_pos = prev_pos_in;
 
         initialized = true;
     }
 }
 
-
-
 void Ball::Display(sf::RenderWindow& window)
 {
+    ball.setPosition(curr_pos);
     window.draw(ball);
 }
 
-void Ball::Update(sf::Time dt)
+void Ball::Update(float dt)
 {
     // down the screen is positive. very annoying
     // but right is default positive.
     // invert y calculation and only y calculation. x is fine.
-    vel.y -= -9.8f * PIXELS_PER_METER * dt.asSeconds();
-    vel.x += PIXELS_PER_METER * dt.asSeconds();
-    pos += vel * dt.asSeconds();
-    ball.setPosition(pos);
+    
+    const sf::Vector2 vel = curr_pos - prev_pos;
+    prev_pos = curr_pos;
+    curr_pos = curr_pos + vel + GRAV * dt * dt;
 
 }
 
 void Ball::TestCollision(const Border& border)
 {
     auto box = border.GetRect();
-    if ((box.height - pos.y) <= RADIUS)
+    if ((box.height - curr_pos.y) <= RADIUS)
     {
-        pos.y = box.height - RADIUS;
-        ball.setPosition(pos);
+        curr_pos.y = box.height - RADIUS;
         ball.setFillColor(sf::Color::Red);
     }
-    if (box.width - pos.x <= RADIUS)
+    else
     {
-        pos.x = box.width - RADIUS;
-        ball.setPosition(pos);
+        ball.setFillColor(sf::Color::White);
+    }
+    if (box.width - curr_pos.x <= RADIUS)
+    {
+        curr_pos.x = box.width - RADIUS;
         ball.setFillColor(sf::Color::Yellow);
     }
-    else if (pos.x - box.left <= RADIUS)
+    else if (curr_pos.x - box.left <= RADIUS)
     {
-        pos.x = box.left + RADIUS;
-        ball.setPosition(pos);
+        curr_pos.x = box.left + RADIUS;
         ball.setFillColor(sf::Color::Yellow);
     }
     else
@@ -81,7 +81,7 @@ void Ball::TestCollision(const Border& border)
 
 void Ball::TestCollision(Ball& other_ball)
 {
-    sf::Vector2f diff = other_ball.pos - pos;
+    sf::Vector2f diff = other_ball.curr_pos - curr_pos;
     float length = sqrt(diff.x * diff.x + diff.y * diff.y);
     const float DOUBLE_RAD = RADIUS * 2;
     if (length < DOUBLE_RAD)
@@ -93,11 +93,15 @@ void Ball::TestCollision(Ball& other_ball)
         // direction is opposite of diff.
         sf::Vector2f normalized_diff( diff / length);
         normalized_diff *= (DOUBLE_RAD - length)/2.f;
-        pos = pos -  normalized_diff;
-        other_ball.pos = other_ball.pos + normalized_diff;
+        curr_pos = curr_pos -  normalized_diff;
+        other_ball.curr_pos = other_ball.curr_pos + normalized_diff;
 
-        ball.setPosition(pos);
     }
+}
+
+void Ball::Ball_Collision(Ball& ball1, Ball& ball2)
+{
+
 }
 
 

@@ -2,14 +2,16 @@
 
 
 Sim::Sim()
-    : window(sf::VideoMode(1920, 1080), "First Game!"),
-    border({ 100,100 }, { 400.f,600.f }, 5.0f),
+    : window(sf::VideoMode(400, 700), "First Game!"),
+    border({ 0,100 }, { 400.f,600.f }, 5.0f),
     FRAME_TIME(sf::seconds(1.f / 60.f))
 {
-    window.setVerticalSyncEnabled(true);
+    //window.setVerticalSyncEnabled(true);
     for (int i =0; i < NUM_BALLS; i++)
     {
-        balls[i].Init({ 20,100 }, { 110, 70 - (i * 70.0f) }, sf::Color::White);
+        balls[i].Init(
+            { 20.f, 70.0f - (static_cast<float>(i) * 70.0f) }, 
+            { 19.9f, (70.0f - (static_cast<float>(i) * 70.0f) - 2.0f) }, sf::Color::White);
     }
 }
 
@@ -26,7 +28,7 @@ void Sim::Run()
         {
             timeSinceLastUpdate -= FRAME_TIME;
             ProcessEvents();
-            Update(FRAME_TIME);
+            Update(FRAME_TIME.asSeconds());
         }
         Display();
     }
@@ -50,8 +52,15 @@ void Sim::ProcessEvents()
     }
 }
 
-void Sim::Update(sf::Time dt)
+void Sim::Update(float dt)
 {
+    if (NUM_BALLS == 1)
+    {
+        balls[0].Update(dt);
+        balls[0].TestCollision(border);
+        return;
+    }
+
     for (Ball& b : balls)
     {
         //TODO: the way this is handled right now means a position update

@@ -9,19 +9,24 @@ private:
 
 public:
     Ball();
-    void Init(sf::Vector2f vel_in, sf::Vector2f center_pos, sf::Color color);
+    void Init(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color color);
     void Display(sf::RenderWindow & window);
-    void Update(sf::Time dt);
+    void Update(float dt);
     void TestCollision(const Border& border);
     void TestCollision(Ball& other_ball);
+    static void Ball_Collision(Ball& ball1, Ball& ball2);
+
 
 private:
-    static constexpr float PIXELS_PER_METER = 1.f;
-    static constexpr float RADIUS = 30.0f;
 
     bool initialized;
     sf::CircleShape ball;
-    sf::Vector2f pos;
-    sf::Vector2f vel;
+    sf::Vector2f curr_pos;
+    sf::Vector2f prev_pos;
+
+public: 
+    static const sf::Vector2f GRAV;
+    static constexpr float RADIUS = 5.0f;
+    static constexpr float GRAV_CONST = 40.f;
 };
 

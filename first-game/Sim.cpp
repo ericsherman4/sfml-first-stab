@@ -3,12 +3,14 @@
 
 Sim::Sim()
     : window(sf::VideoMode(1920, 1080), "First Game!"),
-    ball1({20, 100}, { 100, 0 }, sf::Color::Magenta),
-    ball2({ 20, 100 } , {120, 70}, sf::Color::White),
     border({ 100,100 }, { 400.f,600.f }, 5.0f),
     FRAME_TIME(sf::seconds(1.f / 60.f))
 {
     window.setVerticalSyncEnabled(true);
+    for (int i =0; i < NUM_BALLS; i++)
+    {
+        balls[i].Init({ 20,100 }, { 110, 70 - (i * 70.0f) }, sf::Color::White);
+    }
 }
 
 void Sim::Run()
@@ -50,12 +52,21 @@ void Sim::ProcessEvents()
 
 void Sim::Update(sf::Time dt)
 {
-    ball1.Update(dt);
-    ball2.Update(dt);
-    ball1.TestCollision(border);
-    ball2.TestCollision(border);
-    ball1.TestCollision(ball2);
-
+    for (Ball& b : balls)
+    {
+        //TODO: the way this is handled right now means a position update
+        // will put a bunch of balls into each other
+        // and then by test collision with wall and border, all of them will be through the floor.
+        b.Update(dt);
+        for (Ball& bb : balls)
+        {
+            if (&b != &bb)
+            {
+                b.TestCollision(border);
+                b.TestCollision(bb);
+            }
+        }
+    }
 }
 
 void Sim::Display()
@@ -63,8 +74,11 @@ void Sim::Display()
     window.clear();
 
     border.Display(window);
-    ball1.Display(window);
-    ball2.Display(window);
+
+    for (Ball& b : balls)
+    {
+        b.Display(window);
+    }
     
     window.display();
 }

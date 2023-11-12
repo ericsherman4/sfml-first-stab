@@ -1,29 +1,36 @@
 #include "Ball.h"
 #include "math.h"
 
-
-Ball::Ball(sf::Vector2f vel_in, sf::Vector2f center_pos)
-    : Ball(vel_in, center_pos, sf::Color::White)
+Ball::Ball()
+    : initialized(false),
+    pos(0,0),
+    vel(0,0),
+    ball()
 {
+
 }
 
-
-Ball::Ball(sf::Vector2f vel_in, sf::Vector2f center_pos, sf::Color color)
+void Ball::Init(sf::Vector2f vel_in, sf::Vector2f center_pos, sf::Color color)
 {
-    ball.setRadius(RADIUS);
-    ball.setFillColor(color);
+    if (!initialized)
+    {
+        ball.setRadius(RADIUS);
+        ball.setFillColor(color);
+        ball.setOutlineThickness(2);
+        ball.setOutlineColor(sf::Color::Red);
 
-    // set the origin to be the center
-    // passed in value is offset from top left corner.
-    ball.setOrigin({RADIUS, RADIUS});
+        // set the origin to be the center
+        // passed in value is offset from top left corner.
+        ball.setOrigin({ RADIUS, RADIUS });
 
-    vel = vel_in;
+        vel = vel_in;
 
-    // Update position
-    pos = center_pos;
-    ball.setPosition(pos);
+        // Update position
+        pos = center_pos;
+        ball.setPosition(pos);
 
-
+        initialized = true;
+    }
 }
 
 
@@ -59,6 +66,16 @@ void Ball::TestCollision(const Border& border)
         pos.x = box.width - RADIUS;
         ball.setPosition(pos);
         ball.setFillColor(sf::Color::Yellow);
+    }
+    else if (pos.x - box.left <= RADIUS)
+    {
+        pos.x = box.left + RADIUS;
+        ball.setPosition(pos);
+        ball.setFillColor(sf::Color::Yellow);
+    }
+    else
+    {
+        ball.setFillColor(sf::Color::White);
     }
 }
 

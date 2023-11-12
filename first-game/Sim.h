@@ -13,11 +13,12 @@ public:
     Sim();
     void Run();
 private:
+
+    static constexpr int NUM_BALLS = 40;
     
     const sf::Time FRAME_TIME;
     sf::RenderWindow window; 
-    Ball ball1;
-    Ball ball2;
+    Ball balls[NUM_BALLS];
     Border border;
 };
 

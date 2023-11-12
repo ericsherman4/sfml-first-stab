@@ -2,27 +2,31 @@
 #include "math.h"
 
 
-Ball::Ball(float radius_in, sf::Vector2f center_pos, sf::Color color)
+Ball::Ball(sf::Vector2f vel_in, sf::Vector2f center_pos)
+    : Ball(vel_in, center_pos, sf::Color::White)
 {
-    ball.setRadius(radius_in);
-    ball.setFillColor(color);
+}
 
-    const sf::Vector2 rad_vec(radius_in, radius_in);
+
+Ball::Ball(sf::Vector2f vel_in, sf::Vector2f center_pos, sf::Color color)
+{
+    ball.setRadius(RADIUS);
+    ball.setFillColor(color);
 
     // set the origin to be the center
     // passed in value is offset from top left corner.
-    ball.setOrigin(rad_vec);
+    ball.setOrigin({RADIUS, RADIUS});
 
-    vel.x = 20.0f;
-    vel.y = 100.0f;
+    vel = vel_in;
 
     // Update position
     pos = center_pos;
     ball.setPosition(pos);
 
-    radius = radius_in;
 
 }
+
+
 
 void Ball::Display(sf::RenderWindow& window)
 {
@@ -44,15 +48,15 @@ void Ball::Update(sf::Time dt)
 void Ball::TestCollision(const Border& border)
 {
     auto box = border.GetRect();
-    if ((box.height - pos.y) <= radius)
+    if ((box.height - pos.y) <= RADIUS)
     {
-        pos.y = box.height - radius;
+        pos.y = box.height - RADIUS;
         ball.setPosition(pos);
         ball.setFillColor(sf::Color::Red);
     }
-    if (box.width - pos.x <= radius)
+    if (box.width - pos.x <= RADIUS)
     {
-        pos.x = box.width - radius;
+        pos.x = box.width - RADIUS;
         ball.setPosition(pos);
         ball.setFillColor(sf::Color::Yellow);
     }
@@ -62,7 +66,8 @@ void Ball::TestCollision(Ball& other_ball)
 {
     sf::Vector2f diff = other_ball.pos - pos;
     float length = sqrt(diff.x * diff.x + diff.y * diff.y);
-    if (length < (radius * 2))
+    const float DOUBLE_RAD = RADIUS * 2;
+    if (length < DOUBLE_RAD)
     {
         ball.setFillColor(sf::Color::Green);
         // diff is from center to center.
@@ -70,11 +75,10 @@ void Ball::TestCollision(Ball& other_ball)
         // 2*radius - diff in vector form.
         // direction is opposite of diff.
         sf::Vector2f normalized_diff( diff / length);
-        normalized_diff *= ((2*radius - length)/2.f);
+        normalized_diff *= (DOUBLE_RAD - length)/2.f;
         pos = pos -  normalized_diff;
         other_ball.pos = other_ball.pos + normalized_diff;
 
-        
         ball.setPosition(pos);
     }
 }

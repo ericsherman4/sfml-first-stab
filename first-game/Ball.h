@@ -26,7 +26,7 @@ private:
 
 public: 
     static const sf::Vector2f GRAV;
-    static constexpr float RADIUS = 5.0f;
+    static constexpr float RADIUS = 4.f;
     static constexpr float GRAV_CONST = 40.f;
 };
 

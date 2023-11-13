@@ -1,17 +1,21 @@
 #include "Sim.h"
+#include "ColorSM.h"
 
 
 Sim::Sim()
-    : window(sf::VideoMode(600, 900), "First Game!"),
-    border({ 0,300 }, { 600.f,600.f }, 5.0f),
+    : window(sf::VideoMode(500, 900), "First Game!"),
+    border({ 0,300 }, { 500.f,600.f }, 5.0f),
     FRAME_TIME(sf::seconds(1.f / 60.f))
 {
     int height = 0;
-    const int LEVEL_SIZE = NUM_BALLS / 5;
-    const int LEFT_X_START = 490;
+    const int LEVEL_SIZE = NUM_BALLS / 2;
+    const int LEFT_X_START = 10;
+    ColorSM color;
+
     //window.setVerticalSyncEnabled(true);
     for (int i =0; i < NUM_BALLS; i++)
     {
+        color.Run();
         if (i % LEVEL_SIZE == 0)
         {
             height = 0;
@@ -22,8 +26,8 @@ Sim::Sim()
         }
         balls[i].Init(
             { LEFT_X_START + ((i / LEVEL_SIZE) * 20.f), 70.0f - (20.f * height) },
-            { LEFT_X_START - 0.001f +((i / LEVEL_SIZE) * 20.f), 68.0f - (20.f * height) },
-            sf::Color::White);
+            { LEFT_X_START - 0.001f + ((i / LEVEL_SIZE) * 20.f), 68.0f - (20.f * height) },
+            { static_cast<uint8_t>(color.r), static_cast<uint8_t>(color.g), static_cast<uint8_t>(color.b) });
 
     }
 }

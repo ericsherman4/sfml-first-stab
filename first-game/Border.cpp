@@ -18,7 +18,7 @@ Border::Border(sf::Vector2f topleft, sf::Vector2f size, float thickness)
     border.setFillColor(sf::Color::Black);
     border.setPosition(topleft);
     border.setOutlineThickness(-thickness);
-    border.setOutlineColor(sf::Color::Cyan);
+    border.setOutlineColor(sf::Color::Black);
 
 
 

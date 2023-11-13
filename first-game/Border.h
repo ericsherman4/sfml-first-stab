@@ -12,6 +12,7 @@ public:
 
 private:
     sf::RectangleShape border;
+    sf::RectangleShape hidetopborder;
     sf::Rect<float> inner_container;
 };
 

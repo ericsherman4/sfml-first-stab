@@ -18,7 +18,13 @@ Border::Border(sf::Vector2f topleft, sf::Vector2f size, float thickness)
     border.setFillColor(sf::Color::Black);
     border.setPosition(topleft);
     border.setOutlineThickness(-thickness);
-    border.setOutlineColor(sf::Color::Black);
+
+    border.setOutlineColor(sf::Color::White);
+
+    
+    hidetopborder.setSize({ size.x - (2 * thickness), thickness });
+    hidetopborder.setPosition(topleft + sf::Vector2f(thickness, 0));
+    hidetopborder.setFillColor(sf::Color::Black);
 }
 
 sf::Rect<float> Border::GetRect() const
@@ -29,5 +35,6 @@ sf::Rect<float> Border::GetRect() const
 void Border::Display(sf::RenderWindow& window) const
 {
     window.draw(border);
+    window.draw(hidetopborder);
 }
 

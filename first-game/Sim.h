@@ -16,6 +16,7 @@ public:
 private:
 
     static constexpr int NUM_BALLS = 3000;
+
     const sf::Time FRAME_TIME;
     float spawn_clock;
     int active_ball_count;

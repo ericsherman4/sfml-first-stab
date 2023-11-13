@@ -20,6 +20,7 @@ void Sim::Run()
     spawn_clock = timeSinceLastUpdate.asSeconds();
     // TODO: there is an even better way than this but implementation dependent
     // https://gafferongames.com/post/fix_your_timestep/
+    // TODO: substepping?? see the brick game part 3.  
     while (window.isOpen())
     {
         timeSinceLastUpdate += clock.restart();
@@ -105,7 +106,11 @@ void Sim::Update(float dt)
                 b.TestCollision(bb);
             }
         }
-        b.TestCollision(border);
+        //TODO:
+        //TODO:
+        //TODO:
+        b.TestCollision(border); //PLAY AROUND WITH THIS. SHOULD IT BE ON THE INSIDE?
+        // It was on the inside after test collision originally I think. Or it may have been before.
     }
 
     spawn_clock += dt;

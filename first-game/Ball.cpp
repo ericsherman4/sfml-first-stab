@@ -1,12 +1,13 @@
 #include "Ball.h"
 #include "math.h"
+#include "assert.h"
 
 const sf::Vector2f Ball::GRAV(0.0f, GRAV_CONST);
 
 
 Ball::Ball()
     : initialized(false),
-    ball()
+    ball() // circleshape object
 {
 
 }
@@ -35,6 +36,7 @@ void Ball::Init(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color col
 
 void Ball::Display(sf::RenderWindow& window)
 {
+    assert(initialized == true);
     ball.setPosition(curr_pos);
     window.draw(ball);
 }
@@ -44,7 +46,7 @@ void Ball::Update(float dt)
     // down the screen is positive. very annoying
     // but right is default positive.
     // invert y calculation and only y calculation. x is fine.
-    
+    assert(initialized == true);
     const sf::Vector2 vel = curr_pos - prev_pos;
     prev_pos = curr_pos;
     curr_pos = curr_pos + vel + GRAV * dt * dt;
@@ -53,6 +55,7 @@ void Ball::Update(float dt)
 
 void Ball::TestCollision(const Border& border)
 {
+    assert(initialized == true);
     auto box = border.GetRect();
     if ((box.height - curr_pos.y) <= RADIUS)
     {
@@ -82,6 +85,7 @@ void Ball::TestCollision(const Border& border)
 
 void Ball::TestCollision(Ball& other_ball)
 {
+    assert(initialized == true);
     sf::Vector2f diff = other_ball.curr_pos - curr_pos;
     float length = sqrt(diff.x * diff.x + diff.y * diff.y);
     const float DOUBLE_RAD = RADIUS * 2;
@@ -100,9 +104,9 @@ void Ball::TestCollision(Ball& other_ball)
     }
 }
 
-void Ball::Ball_Collision(Ball& ball1, Ball& ball2)
+bool Ball::GetInitialized()
 {
-
+    return initialized;
 }
 
 

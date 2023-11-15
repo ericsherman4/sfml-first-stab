@@ -14,7 +14,7 @@ public:
     void Update(float dt);
     void TestCollision(const Border& border);
     void TestCollision(Ball& other_ball);
-    static void Ball_Collision(Ball& ball1, Ball& ball2);
+    bool GetInitialized();
 
 
 private:

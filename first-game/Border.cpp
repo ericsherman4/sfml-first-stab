@@ -19,9 +19,6 @@ Border::Border(sf::Vector2f topleft, sf::Vector2f size, float thickness)
     border.setPosition(topleft);
     border.setOutlineThickness(-thickness);
     border.setOutlineColor(sf::Color::Black);
-
-
-
 }
 
 sf::Rect<float> Border::GetRect() const

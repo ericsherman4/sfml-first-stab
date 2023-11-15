@@ -66,3 +66,12 @@ void ColorSM::Run()
 
     curr_state = next_state;
 }
+
+sf::Color ColorSM::GetColor()
+{
+    return sf::Color(
+        static_cast<uint8_t>(r),
+        static_cast<uint8_t>(g),
+        static_cast<uint8_t>(b)
+    );
+}

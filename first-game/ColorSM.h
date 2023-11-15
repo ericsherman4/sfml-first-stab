@@ -7,6 +7,7 @@ public:
     ColorSM();
 
     void Run();
+    sf::Color GetColor();
 
 private: 
     enum class State
@@ -23,7 +24,7 @@ private:
     State next_state;
 
 public:
-    static constexpr float speed = 0.3f;
+    static constexpr float speed = 1.f;
 
     float r;
     float g;

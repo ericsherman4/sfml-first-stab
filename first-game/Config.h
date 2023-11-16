@@ -1,0 +1,23 @@
+#pragma once
+
+#define CONFIG_BALL_RADIUS 4.f
+#define CONFIG_GRAV_CONST 40.f
+#define CONFIG_MAX_BALLS 3000
+#define CONFIG_VIDEO_WIDTH 700
+#define CONFIG_VIDEO_HEIGHT 900
+#define CONFIG_BORDER_TOPLEFT {0,300}
+#define CONFIG_BORDER_DIM {CONFIG_VIDEO_WIDTH , 600.f}
+#define CONFIG_BORDER_THICKNESS 5.f
+#define CONFIG_60FPS (1.f / 60.f)
+#define CONFIG_NUM_BALL_SOURCES 4
+#define CONFIG_SPAWN_START_X 20.f
+#define CONFIG_SPAWN_X_VEL 1.f
+#define CONFIG_SPAWN_START_Y 10.f
+#define CONFIG_SPAWN_Y_VEL 3.f
+#define CONFIG_SPAWN_Y_SPACING_FACTOR 10.f
+
+#pragma message("configify the ball spawning thing")
+
+#define CONFIG_COLOR_SPEED 1.f
+
+

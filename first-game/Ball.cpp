@@ -2,8 +2,7 @@
 #include "math.h"
 #include "assert.h"
 
-const sf::Vector2f Ball::GRAV(0.0f, GRAV_CONST);
-
+const sf::Vector2f Ball::GRAV(0.0f, CONFIG_GRAV_CONST);
 
 Ball::Ball()
     : initialized(false),

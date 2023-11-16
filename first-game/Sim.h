@@ -3,6 +3,7 @@
 #include "Ball.h"
 #include "Border.h"
 #include "ColorSM.h"
+#include "Config.h"
 
 class Sim
 {
@@ -15,7 +16,7 @@ public:
     void Run();
 private:
 
-    static constexpr int NUM_BALLS = 3000;
+    static constexpr int NUM_BALLS = CONFIG_MAX_BALLS;
 
     const sf::Time FRAME_TIME;
     float spawn_clock;

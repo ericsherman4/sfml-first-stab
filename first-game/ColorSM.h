@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Config.h"
 
 class ColorSM
 {
@@ -24,7 +25,6 @@ private:
     State next_state;
 
 public:
-    static constexpr float speed = 1.f;
 
     float r;
     float g;

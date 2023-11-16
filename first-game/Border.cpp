@@ -13,15 +13,17 @@ Border::Border(sf::Vector2f topleft, sf::Vector2f size, float thickness)
     bounding_box.width = bounding_box.width - thickness + topleft.x;
     bounding_box.height = bounding_box.height - thickness + topleft.y;
     bounding_box.top += thickness + topleft.y;
+
+    // store a copy
     inner_container = bounding_box;
 
+    // setup the border.
     border.setFillColor(sf::Color::Black);
     border.setPosition(topleft);
     border.setOutlineThickness(-thickness);
-
     border.setOutlineColor(sf::Color::White);
 
-    
+    // Hide the top border 
     hidetopborder.setSize({ size.x - (2 * thickness), thickness });
     hidetopborder.setPosition(topleft + sf::Vector2f(thickness, 0));
     hidetopborder.setFillColor(sf::Color::Black);

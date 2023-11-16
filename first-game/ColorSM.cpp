@@ -15,7 +15,7 @@ void ColorSM::Run()
     switch (curr_state)
     {
         case State::RISING_G:
-            g += speed;
+            g += CONFIG_COLOR_SPEED;
             if (g >= 255)
             {
                 g = 255;
@@ -23,7 +23,7 @@ void ColorSM::Run()
             }
             break;
         case State::FALLING_R:
-            r -= speed;
+            r -= CONFIG_COLOR_SPEED;
             if (r <= 0)
             {
                 r = 0;
@@ -31,7 +31,7 @@ void ColorSM::Run()
             }
             break;
         case State::RISING_B:
-            b += speed;
+            b += CONFIG_COLOR_SPEED;
             if (b >= 255)
             {
                 b = 255;
@@ -39,7 +39,7 @@ void ColorSM::Run()
             }
             break;
         case State::FALLING_G:
-            g -= speed;
+            g -= CONFIG_COLOR_SPEED;
             if (g <= 0)
             {
                 g = 0;
@@ -47,7 +47,7 @@ void ColorSM::Run()
             }
             break;
         case State::RISING_R:
-            r += speed;
+            r += CONFIG_COLOR_SPEED;
             if (r >= 255)
             {
                 r = 255;
@@ -55,7 +55,7 @@ void ColorSM::Run()
             }
             break;
         case State::FALLING_B:
-            b -= speed;
+            b -= CONFIG_COLOR_SPEED;
             if (b <= 0)
             {
                 b = 0;

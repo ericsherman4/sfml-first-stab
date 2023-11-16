@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Border.h"
+#include "Config.h"
 
 class Ball
 {
@@ -26,7 +27,6 @@ private:
 
 public: 
     static const sf::Vector2f GRAV;
-    static constexpr float RADIUS = 10.f;
-    static constexpr float GRAV_CONST = 40.f;
+    static constexpr float RADIUS = CONFIG_BALL_RADIUS;
 };
 

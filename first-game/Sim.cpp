@@ -3,9 +3,9 @@
 
 
 Sim::Sim()
-    : window(sf::VideoMode(700, 900), "First Game!"),
-    border({ 0,300 }, { 700.f,600.f }, 5.0f),
-    FRAME_TIME(sf::seconds(1.f / 60.f)),
+    : window(sf::VideoMode(CONFIG_VIDEO_WIDTH, CONFIG_VIDEO_HEIGHT), "Balls on Balls on Balls"),
+    border(CONFIG_BORDER_TOPLEFT, CONFIG_BORDER_DIM , CONFIG_BORDER_THICKNESS),
+    FRAME_TIME(sf::seconds(CONFIG_60FPS)),
     spawn_clock(0.f),
     active_ball_count(0),
     color()
@@ -21,10 +21,13 @@ void Sim::Run()
     // TODO: there is an even better way than this but implementation dependent
     // https://gafferongames.com/post/fix_your_timestep/
     // TODO: substepping?? see the brick game part 3.  
+
+    const float FPS_LIMIT = FRAME_TIME.asSeconds() * 4;
+
     while (window.isOpen())
     {
         timeSinceLastUpdate += clock.restart();
-        if (timeSinceLastUpdate.asSeconds() > FRAME_TIME.asSeconds() * 4)
+        if (timeSinceLastUpdate.asSeconds() > FPS_LIMIT)
         {   
             int count = 0;
             while (true)
@@ -71,15 +74,16 @@ void Sim::Update(float dt)
         return;
     }
 
-    const int NUM_ROWS = 8;
-    if (spawn_clock > 0.1 && active_ball_count < (NUM_BALLS - NUM_ROWS))
+    if (spawn_clock > 0.1 && active_ball_count < (NUM_BALLS - CONFIG_NUM_BALL_SOURCES))
     {
-        for (int i = 0; i < NUM_ROWS; i++)
+        for (int i = 0; i < CONFIG_NUM_BALL_SOURCES; i++)
         {
             color.Run();
+            const float y_pos = CONFIG_SPAWN_START_Y + (i * Ball::RADIUS * CONFIG_SPAWN_Y_SPACING_FACTOR);
             balls[active_ball_count++].Init(
-                { 20.f    , 10.f + (i * Ball::RADIUS * 3.f) },
-                { 20.f - 4.f, 10.f + (i * Ball::RADIUS * 3.f) - 3.f },
+                { CONFIG_SPAWN_START_X, CONFIG_SPAWN_START_Y + y_pos },
+                { CONFIG_SPAWN_START_X - CONFIG_SPAWN_X_VEL, 
+                    CONFIG_SPAWN_START_Y + y_pos - CONFIG_SPAWN_Y_VEL },
                 color.GetColor());
         }
         spawn_clock = 0;

@@ -4,6 +4,7 @@
 #include "Border.h"
 #include "ColorSM.h"
 #include "Config.h"
+#include "Statistics.h"
 
 class Sim
 {
@@ -25,5 +26,6 @@ private:
     sf::RenderWindow window; 
     Ball balls[NUM_BALLS];
     Border border;
+    Statistics stat;
 };
 

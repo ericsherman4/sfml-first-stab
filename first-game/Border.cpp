@@ -21,7 +21,7 @@ Border::Border(sf::Vector2f topleft, sf::Vector2f size, float thickness)
     border.setFillColor(sf::Color::Black);
     border.setPosition(topleft);
     border.setOutlineThickness(-thickness);
-    border.setOutlineColor(sf::Color::White);
+    border.setOutlineColor(sf::Color::Black);
 
     // Hide the top border 
     hidetopborder.setSize({ size.x - (2 * thickness), thickness });

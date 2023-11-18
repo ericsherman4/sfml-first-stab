@@ -8,9 +8,9 @@ Sim::Sim()
     FRAME_TIME(sf::seconds(CONFIG_60FPS)),
     spawn_clock(0.f),
     active_ball_count(0),
-    color()
+    color(),
+    stat()
 {
-
 }
 
 void Sim::Run()
@@ -22,7 +22,7 @@ void Sim::Run()
     // https://gafferongames.com/post/fix_your_timestep/
     // TODO: substepping?? see the brick game part 3.  
 
-    const float FPS_LIMIT = FRAME_TIME.asSeconds() * 4;
+    const float FPS_LIMIT = CONFIG_FPS_LIMIT;
 
     while (window.isOpen())
     {
@@ -40,7 +40,12 @@ void Sim::Run()
         {
             timeSinceLastUpdate -= FRAME_TIME;
             ProcessEvents();
+
+            stat.Log_Clock();
             Update(FRAME_TIME.asSeconds());
+            stat.Log_Clock();
+            stat.CalculateStats(FRAME_TIME.asSeconds(), active_ball_count);
+
         }
         Display();
 
@@ -125,6 +130,7 @@ void Sim::Display()
     window.clear();
 
     border.Display(window);
+    stat.Display(window);
 
     for (Ball& b : balls)
     {

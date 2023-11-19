@@ -7,6 +7,7 @@ Statistics::Statistics()
     , num_frames(0)
     , font()
     , clock()
+    , sim_time(0.f)
 {
     font.loadFromFile("Sansation.ttf");
     text.setFont(font);
@@ -27,7 +28,11 @@ void Statistics::CalculateStats(float dt, int ball_count)
     num_frames += 1;
     if (update_time > CONFIG_STATISTICS_PRINT_INTERVAL)
     {
-        text.setString("FPS: " + std::to_string(num_frames) + "\nSim Time: " + std::to_string(sim_time) + "\nBall Count: " + std::to_string(ball_count));
+        text.setString(
+            "FPS: " + std::to_string(num_frames / CONFIG_STATISTICS_PRINT_INTERVAL) 
+            + "\nSim Time: " + std::to_string(sim_time) 
+            + "\nBall Count: " + std::to_string(ball_count)
+        );
         update_time -= CONFIG_STATISTICS_PRINT_INTERVAL;
         num_frames = 0;
     }

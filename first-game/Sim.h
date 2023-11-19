@@ -5,6 +5,7 @@
 #include "ColorSM.h"
 #include "Config.h"
 #include "Statistics.h"
+#include "Grid.h"
 
 class Sim
 {
@@ -27,5 +28,6 @@ private:
     Ball balls[NUM_BALLS];
     Border border;
     Statistics stat;
+    Grid grid;
 };
 

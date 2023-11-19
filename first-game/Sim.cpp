@@ -9,7 +9,8 @@ Sim::Sim()
     spawn_clock(0.f),
     active_ball_count(0),
     color(),
-    stat()
+    stat(),
+    grid(CONFIG_VIDEO_WIDTH, CONFIG_VIDEO_HEIGHT, static_cast<int>(CONFIG_BALL_RADIUS))
 {
 }
 
@@ -32,7 +33,7 @@ void Sim::Run()
             int count = 0;
             while (true)
             {
-                count++;
+               count++;
             }
 
         }
@@ -94,6 +95,8 @@ void Sim::Update(float dt)
         spawn_clock = 0;
     }
 
+    grid.Clear();
+
     for (Ball& b : balls)
     {
         // Doing in order. So if its not initialized, just ignore the rest.
@@ -101,6 +104,8 @@ void Sim::Update(float dt)
         {
             break;
         }
+
+        grid.Add(&b);
 
         b.Update(dt);
         for (Ball& bb : balls)

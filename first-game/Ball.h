@@ -17,12 +17,12 @@ public:
     void TestCollision(Ball& other_ball);
     bool GetInitialized();
 
+    sf::Vector2f curr_pos;
 
 private:
 
     bool initialized;
     sf::CircleShape ball;
-    sf::Vector2f curr_pos;
     sf::Vector2f prev_pos;
 
 public: 

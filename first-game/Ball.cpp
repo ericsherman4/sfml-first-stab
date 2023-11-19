@@ -56,22 +56,26 @@ void Ball::TestCollision(const Border& border)
 {
     assert(initialized == true);
     auto box = border.GetRect();
-    if ((box.height - curr_pos.y) < RADIUS)
+    if ((curr_pos.y + RADIUS) > box.height)
     {
         curr_pos.y = box.height - RADIUS;
         //ball.setFillColor(sf::Color::Red); 
+    }
+    else if ((curr_pos.y - RADIUS) < box.top)
+    {
+        curr_pos.y = box.top + RADIUS;
     }
     else
     {
         //ball.setFillColor(sf::Color::White); //this function added so much damn lag.
         // could make thing to just check if its already white and if so then dont assign.
     }
-    if (box.width - curr_pos.x < RADIUS)
+    if ((curr_pos.x + RADIUS) > box.width)
     {
         curr_pos.x = box.width - RADIUS;
         //ball.setFillColor(sf::Color::Yellow);
     }
-    else if (curr_pos.x - box.left < RADIUS)
+    else if ((curr_pos.x - RADIUS) < box.left)
     {
         curr_pos.x = box.left + RADIUS;
         //ball.setFillColor(sf::Color::Yellow);

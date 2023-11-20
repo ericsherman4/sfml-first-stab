@@ -1,11 +1,11 @@
 #pragma once
+#include "assert.h"
 
-#define CONFIG_BALL_RADIUS 5 // must be so that diameter is an int. 
-// should have a bunch of static asserts here.
+#define CONFIG_BALL_RADIUS 5
 #define CONFIG_GRAV_CONST 40.f
 #define CONFIG_MAX_BALLS 3200 // MUST BE GREATER THAN 1
-#define CONFIG_VIDEO_WIDTH 1900 //must be divisible by ball diameter or else grid incomplete.
-#define CONFIG_VIDEO_HEIGHT 900 //must be divisible by ball diameter or else grid incomplete.
+#define CONFIG_VIDEO_WIDTH 1000 //must be divisible by ball diameter or else grid incomplete.
+#define CONFIG_VIDEO_HEIGHT 1000 
 #define CONFIG_BORDER_TOPLEFT {0,0}
 #define CONFIG_BORDER_DIM {CONFIG_VIDEO_WIDTH , CONFIG_VIDEO_HEIGHT}
 #define CONFIG_BORDER_THICKNESS CONFIG_BALL_RADIUS*2
@@ -21,4 +21,6 @@
 #define CONFIG_COLOR_SPEED 0.2f
 #define CONFIG_STATISTICS_PRINT_INTERVAL 0.1f
 
-
+// FILL THESE OUT
+//static_assert(CONFIG_VIDEO_WIDTH % (CONFIG_BALL_RADIUS * 2) == 0, "Video width must be divisible by ball diameter.");
+//static_assert(CONFIG_VIDEO_HEIGHT % (CONFIG_BALL_RADIUS * 2) == 0, "Video width must be divisible by ball diameter.");

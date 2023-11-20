@@ -107,9 +107,9 @@ void Sim::Update(float dt)
             sf::Vector2i test(grid.GetGridPosVect(b.curr_pos));
             if (test.x == 0 || test.x == (CONFIG_VIDEO_WIDTH / CONFIG_BALL_RADIUS / 2) || test.y == 0 || test.y == (CONFIG_VIDEO_HEIGHT / CONFIG_BALL_RADIUS / 2))
             {
-                assert(false);
-                volatile int x = 0;
-                x = x * x + 23 - 21;
+            //    assert(false);
+            //    volatile int x = 0;
+            //    x = x * x + 23 - 21;
 
             }
             else

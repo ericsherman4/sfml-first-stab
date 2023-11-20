@@ -86,10 +86,10 @@ void Ball::TestCollision(const Border& border)
     }
 }
 
-void Ball::TestCollision(Ball& other_ball)
+void Ball::TestCollision(Ball * other_ball)
 {
     assert(initialized == true);
-    sf::Vector2f diff = other_ball.curr_pos - curr_pos;
+    sf::Vector2f diff = other_ball->curr_pos - curr_pos;
     float length = sqrt(diff.x * diff.x + diff.y * diff.y);
     const float DOUBLE_RAD = RADIUS * 2;
     if (length < DOUBLE_RAD)
@@ -102,7 +102,7 @@ void Ball::TestCollision(Ball& other_ball)
         sf::Vector2f normalized_diff( diff / length);
         normalized_diff *= (DOUBLE_RAD - length)/2.f;
         curr_pos = curr_pos -  normalized_diff;
-        other_ball.curr_pos = other_ball.curr_pos + normalized_diff;
+        other_ball->curr_pos = other_ball->curr_pos + normalized_diff;
 
     }
 }

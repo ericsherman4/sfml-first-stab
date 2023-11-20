@@ -14,7 +14,7 @@ public:
     void Display(sf::RenderWindow & window);
     void Update(float dt);
     void TestCollision(const Border& border);
-    void TestCollision(Ball& other_ball);
+    void TestCollision(Ball * other_ball);
     bool GetInitialized();
 
     sf::Vector2f curr_pos;

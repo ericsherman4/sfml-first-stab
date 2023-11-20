@@ -3,11 +3,12 @@
 
 Unit::Unit()
     : size(0)
+    , balls() // what exactly is happening here?
 {
 }
 
 void Unit::Add(Ball* ball)
 {
     assert(MAX_SIZE >= (size + 1));
-    unit[size++] = ball;
+    balls[size++] = ball;
 }

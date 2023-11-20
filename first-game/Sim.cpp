@@ -1,4 +1,5 @@
 #include "Sim.h"
+#include "assert.h"
 
 
 
@@ -10,7 +11,7 @@ Sim::Sim()
     active_ball_count(0),
     color(),
     stat(),
-    grid(CONFIG_VIDEO_WIDTH, CONFIG_VIDEO_HEIGHT, static_cast<int>(CONFIG_BALL_RADIUS))
+    grid(CONFIG_VIDEO_WIDTH, CONFIG_VIDEO_HEIGHT, static_cast<int>(CONFIG_BALL_RADIUS), border)
 {
 }
 
@@ -30,11 +31,11 @@ void Sim::Run()
         timeSinceLastUpdate += clock.restart();
         if (timeSinceLastUpdate.asSeconds() > FPS_LIMIT)
         {   
-            int count = 0;
-            while (true)
-            {
-               count++;
-            }
+            //int count = 0;
+            //while (true)
+            //{
+            //   count++;
+            //}
 
         }
         while (timeSinceLastUpdate > FRAME_TIME)
@@ -43,7 +44,11 @@ void Sim::Run()
             ProcessEvents();
 
             stat.Log_Clock();
-            Update(FRAME_TIME.asSeconds());
+            const int substeps = 8;
+            for (int i = 0; i < substeps; ++i)
+            {
+                Update(FRAME_TIME.asSeconds() / static_cast<float>(substeps));
+            }
             stat.Log_Clock();
             stat.CalculateStats(FRAME_TIME.asSeconds(), active_ball_count);
 
@@ -73,30 +78,51 @@ void Sim::ProcessEvents()
 
 void Sim::Update(float dt)
 {
-    if (NUM_BALLS == 1)
-    {
-        balls[0].Update(dt);
-        balls[0].TestCollision(border);
-        return;
-    }
+    SpawnBalls();
 
-    if (spawn_clock > 0.1 && active_ball_count < (NUM_BALLS - CONFIG_NUM_BALL_SOURCES))
+#if 1
+    for (int i{ 0 }; i < 1; i++)
     {
-        for (int i = 0; i < CONFIG_NUM_BALL_SOURCES; i++)
+        for (Ball& b : balls)
         {
-            color.Run();
-            const float y_pos = CONFIG_SPAWN_START_Y + (i * Ball::RADIUS * CONFIG_SPAWN_Y_SPACING_FACTOR);
-            balls[active_ball_count++].Init(
-                { CONFIG_SPAWN_START_X, CONFIG_SPAWN_START_Y + y_pos },
-                { CONFIG_SPAWN_START_X - CONFIG_SPAWN_X_VEL, 
-                    CONFIG_SPAWN_START_Y + y_pos - CONFIG_SPAWN_Y_VEL },
-                color.GetColor());
+            // Doing in order. So if its not initialized, just ignore the rest.
+            if (!b.GetInitialized())
+            {
+                break;
+            }
+            b.Update(dt);
+            b.TestCollision(border);
         }
-        spawn_clock = 0;
+
+        grid.Clear();
+
+        for (Ball& b : balls)
+        {
+            // Doing in order. So if its not initialized, just ignore the rest.
+            if (!b.GetInitialized())
+            {
+                break;
+            }
+
+            sf::Vector2i test(grid.GetGridPosVect(b.curr_pos));
+            if (test.x == 0 || test.x == (CONFIG_VIDEO_WIDTH / CONFIG_BALL_RADIUS / 2) || test.y == 0 || test.y == (CONFIG_VIDEO_HEIGHT / CONFIG_BALL_RADIUS / 2))
+            {
+                assert(false);
+                volatile int x = 0;
+                x = x * x + 23 - 21;
+
+            }
+            else
+            {
+                grid.Add(&b);
+            }
+
+        }
+        grid.FindCollisions();
+
+
     }
-
-    grid.Clear();
-
+#else
     for (Ball& b : balls)
     {
         // Doing in order. So if its not initialized, just ignore the rest.
@@ -105,7 +131,6 @@ void Sim::Update(float dt)
             break;
         }
 
-        grid.Add(&b);
 
         b.Update(dt);
         for (Ball& bb : balls)
@@ -117,7 +142,7 @@ void Sim::Update(float dt)
             }
             if (&b != &bb)
             {
-                b.TestCollision(bb);
+                b.TestCollision(&bb);
             }
         }
         //TODO:
@@ -126,6 +151,8 @@ void Sim::Update(float dt)
         b.TestCollision(border); //PLAY AROUND WITH THIS. SHOULD IT BE ON THE INSIDE?
         // It was on the inside after test collision originally I think. Or it may have been before.
     }
+
+#endif 
 
     spawn_clock += dt;
 }
@@ -147,4 +174,22 @@ void Sim::Display()
     }
     
     window.display();
+}
+
+void Sim::SpawnBalls()
+{
+    if (spawn_clock > 0.1 && active_ball_count < (NUM_BALLS - CONFIG_NUM_BALL_SOURCES))
+    {
+        for (int i = 0; i < CONFIG_NUM_BALL_SOURCES; i++)
+        {
+            color.Run();
+            const float y_pos = CONFIG_SPAWN_START_Y + (i * Ball::RADIUS * CONFIG_SPAWN_Y_SPACING_FACTOR);
+            balls[active_ball_count++].Init(
+                { CONFIG_SPAWN_START_X, CONFIG_SPAWN_START_Y + y_pos },
+                { CONFIG_SPAWN_START_X - CONFIG_SPAWN_X_VEL,
+                    CONFIG_SPAWN_START_Y + y_pos - CONFIG_SPAWN_Y_VEL },
+                color.GetColor());
+        }
+        spawn_clock = 0;
+    }
 }

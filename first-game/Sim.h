@@ -13,6 +13,7 @@ private:
     void ProcessEvents();
     void Update(float dt);
     void Display();
+    void SpawnBalls();
 public:
     Sim();
     void Run();

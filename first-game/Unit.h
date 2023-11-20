@@ -9,7 +9,7 @@ public:
     
     static constexpr int MAX_SIZE =  10;
     // array of ball pointers
-    Ball* unit[MAX_SIZE];
+    Ball* balls[MAX_SIZE];
     int size;
 };
 

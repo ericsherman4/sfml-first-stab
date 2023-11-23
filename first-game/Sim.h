@@ -19,14 +19,12 @@ public:
     void Run();
 private:
 
-    static constexpr int NUM_BALLS = CONFIG_MAX_BALLS;
-
     const sf::Time FRAME_TIME;
     float spawn_clock;
     int active_ball_count;
     ColorSM color;
     sf::RenderWindow window; 
-    Ball balls[NUM_BALLS];
+    Ball * balls;
     Border border;
     Statistics stat;
     Grid grid;

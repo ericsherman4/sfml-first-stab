@@ -9,6 +9,6 @@ Unit::Unit()
 
 void Unit::Add(Ball* ball)
 {
-    assert(MAX_SIZE >= (size + 1));
+    assert(MAX_SIZE > size);
     balls[size++] = ball;
 }

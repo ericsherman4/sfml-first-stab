@@ -8,7 +8,6 @@ Ball::Ball()
     : initialized(false),
     ball() // circleshape object
 {
-
 }
 
 void Ball::Init(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color color)
@@ -92,7 +91,12 @@ void Ball::TestCollision(Ball * other_ball)
     sf::Vector2f diff = other_ball->curr_pos - curr_pos;
     float length = sqrt(diff.x * diff.x + diff.y * diff.y);
     const float DOUBLE_RAD = RADIUS * 2;
-    if (length < DOUBLE_RAD)
+    // some super cool shit happens if you do the line below
+    //if (length < (DOUBLE_RAD - 0.1))
+    //if (length < (DOUBLE_RAD + 0.1)) EVEN COOLER SHIT HAPPENS WITH THIS
+    //if(length < DOUBLE_RAD && length > 0.1) //how does restricting the length help? if length is somehow negative then it would actually move the balls into each other right? cant actually confirm that this helps
+    if(length < DOUBLE_RAD && length > 0.01)
+     
     {
         //ball.setFillColor(sf::Color::Green);
         // diff is from center to center.

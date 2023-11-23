@@ -65,10 +65,9 @@ void Grid::FindCollisions()
 void Grid::CheckSurroundingCells(int x_in, int y_in)
 {
     Unit &current_cell = grid[GetGridPos(x_in, y_in)];
-
-    if (current_cell.size >= 1)
+    if (current_cell.size == 0)
     {
-        int p = 0;
+        return;
     }
     for (int y{ y_in +1 }; y >= y_in - 1; --y)
     {
@@ -89,7 +88,7 @@ void Grid::CheckCellsCollisions(Unit& unit_1, Unit& unit_2)
             if (unit_1.balls[i] != unit_2.balls[j])
             {
                 unit_1.balls[i]->TestCollision(unit_2.balls[j]);
-                // unit_1.balls[i]->TestCollision(border);
+                //unit_1.balls[i]->TestCollision(border);
             }
         }
     }

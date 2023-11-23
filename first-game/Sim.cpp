@@ -13,6 +13,8 @@ Sim::Sim()
     stat(),
     grid(CONFIG_VIDEO_WIDTH, CONFIG_VIDEO_HEIGHT, static_cast<int>(CONFIG_BALL_RADIUS), border)
 {
+    balls = new Ball[CONFIG_MAX_BALLS]();
+    window.setPosition({ 100, 0 });
 }
 
 void Sim::Run()
@@ -81,47 +83,29 @@ void Sim::Update(float dt)
     SpawnBalls();
 
 #if 1
-    for (int i{ 0 }; i < 1; i++)
+    // should just change this to num active balls you idiot
+    for (int i{ 0 }; i < active_ball_count; ++i)
     {
-        for (Ball& b : balls)
-        {
-            // Doing in order. So if its not initialized, just ignore the rest.
-            if (!b.GetInitialized())
-            {
-                break;
-            }
-            b.Update(dt);
-            b.TestCollision(border);
-        }
-
-        grid.Clear();
-
-        for (Ball& b : balls)
-        {
-            // Doing in order. So if its not initialized, just ignore the rest.
-            if (!b.GetInitialized())
-            {
-                break;
-            }
-
-            sf::Vector2i test(grid.GetGridPosVect(b.curr_pos));
-            if (test.x == 0 || test.x == (CONFIG_VIDEO_WIDTH / CONFIG_BALL_RADIUS / 2) || test.y == 0 || test.y == (CONFIG_VIDEO_HEIGHT / CONFIG_BALL_RADIUS / 2))
-            {
-            //    assert(false);
-            //    volatile int x = 0;
-            //    x = x * x + 23 - 21;
-
-            }
-            else
-            {
-                grid.Add(&b);
-            }
-
-        }
-        grid.FindCollisions();
-
-
+        balls[i].Update(dt);
+        balls[i].TestCollision(border);
     }
+
+    grid.Clear();
+
+    for (int i{ 0 }; i < active_ball_count; ++i)
+    {
+        sf::Vector2i test(grid.GetGridPosVect(balls[i].curr_pos));
+        if (!(test.x == 0
+            || test.x == (CONFIG_VIDEO_WIDTH / CONFIG_BALL_RADIUS / 2)
+            || test.y == 0
+            || test.y == (CONFIG_VIDEO_HEIGHT / CONFIG_BALL_RADIUS / 2)))
+        {
+            grid.Add(&balls[i]);
+        }
+    }
+    grid.FindCollisions();
+
+
 #else
     for (Ball& b : balls)
     {
@@ -164,13 +148,13 @@ void Sim::Display()
     border.Display(window);
     stat.Display(window);
 
-    for (Ball& b : balls)
+    for (int i{ 0 }; i < CONFIG_MAX_BALLS; ++i)
     {
-        if (!b.GetInitialized())
+        if (!balls[i].GetInitialized())
         {
             break;
         }
-        b.Display(window);
+        balls[i].Display(window);
     }
     
     window.display();
@@ -178,7 +162,7 @@ void Sim::Display()
 
 void Sim::SpawnBalls()
 {
-    if (spawn_clock > 0.1 && active_ball_count < (NUM_BALLS - CONFIG_NUM_BALL_SOURCES))
+    if (spawn_clock > 0.1 && active_ball_count < (CONFIG_MAX_BALLS - CONFIG_NUM_BALL_SOURCES))
     {
         for (int i = 0; i < CONFIG_NUM_BALL_SOURCES; i++)
         {

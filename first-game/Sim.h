@@ -26,5 +26,6 @@ private:
     Ball * balls;
     Statistics stat;
     Grid grid;
+    bool fps_limit_reached;
 };
 

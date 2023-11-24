@@ -2,6 +2,7 @@
 #include "math.h"
 #include "assert.h"
 
+// has to be a vector so cant use grav const directly
 const sf::Vector2f Ball::GRAV(0.0f, CONFIG_GRAV_CONST);
 
 Ball::Ball()
@@ -89,22 +90,26 @@ void Ball::TestCollision(Ball * other_ball)
 {
     assert(initialized == true);
     sf::Vector2f diff = other_ball->curr_pos - curr_pos;
-    float length = sqrt(diff.x * diff.x + diff.y * diff.y);
-    const float DOUBLE_RAD = RADIUS * 2;
+    float length_sq = diff.x * diff.x + diff.y * diff.y;
+    static const float DIAMETER_SQ = RADIUS * 4 * RADIUS;
+    static const float DIAMETER = 2 * RADIUS;
     // some super cool shit happens if you do the line below
     //if (length < (DOUBLE_RAD - 0.1))
     //if (length < (DOUBLE_RAD + 0.1)) EVEN COOLER SHIT HAPPENS WITH THIS
     //if(length < DOUBLE_RAD && length > 0.1) //how does restricting the length help? if length is somehow negative then it would actually move the balls into each other right? cant actually confirm that this helps
-    if(length < DOUBLE_RAD && length > 0.01)
-     
+    assert(length >= 0.f);
+    if(length_sq < DIAMETER_SQ)
     {
         //ball.setFillColor(sf::Color::Green);
         // diff is from center to center.
         // want the ball to move 2*radius - diff backwards.
         // 2*radius - diff in vector form.
         // direction is opposite of diff.
+
+        const float length = sqrt(length_sq);
+
         sf::Vector2f normalized_diff( diff / length);
-        normalized_diff *= (DOUBLE_RAD - length)/2.f;
+        normalized_diff *= (DIAMETER - length)/2.f;
         curr_pos = curr_pos -  normalized_diff;
         other_ball->curr_pos = other_ball->curr_pos + normalized_diff;
 

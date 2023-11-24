@@ -42,6 +42,10 @@ void Ball::Display(sf::RenderWindow& window)
 
 void Ball::Update(float dt)
 {
+    static const float height = CONFIG_BORDER_BOTTOM;
+    static const float width = CONFIG_BORDER_RIGHT;
+    static const float top = CONFIG_BORDER_TOP;
+    static const float left = CONFIG_BORDER_LEFT;
     // down the screen is positive. very annoying
     // but right is default positive.
     // invert y calculation and only y calculation. x is fine.
@@ -50,39 +54,22 @@ void Ball::Update(float dt)
     prev_pos = curr_pos;
     curr_pos = curr_pos + vel + GRAV * dt * dt;
 
-}
+    if ((curr_pos.y + RADIUS) > height)
+    {
+        curr_pos.y = height - RADIUS;
+    }
+    else if ((curr_pos.y - RADIUS) < top)
+    {
+        curr_pos.y = top + RADIUS;
+    }
 
-void Ball::TestCollision(const Border& border)
-{
-    assert(initialized == true);
-    auto box = border.GetRect();
-    if ((curr_pos.y + RADIUS) > box.height)
+    if ((curr_pos.x + RADIUS) > width)
     {
-        curr_pos.y = box.height - RADIUS;
-        //ball.setFillColor(sf::Color::Red); 
+        curr_pos.x = width - RADIUS;
     }
-    else if ((curr_pos.y - RADIUS) < box.top)
+    else if ((curr_pos.x - RADIUS) < left)
     {
-        curr_pos.y = box.top + RADIUS;
-    }
-    else
-    {
-        //ball.setFillColor(sf::Color::White); //this function added so much damn lag.
-        // could make thing to just check if its already white and if so then dont assign.
-    }
-    if ((curr_pos.x + RADIUS) > box.width)
-    {
-        curr_pos.x = box.width - RADIUS;
-        //ball.setFillColor(sf::Color::Yellow);
-    }
-    else if ((curr_pos.x - RADIUS) < box.left)
-    {
-        curr_pos.x = box.left + RADIUS;
-        //ball.setFillColor(sf::Color::Yellow);
-    }
-    else
-    {
-        //ball.setFillColor(sf::Color::White); //this one too
+        curr_pos.x = left + RADIUS;
     }
 }
 

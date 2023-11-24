@@ -5,13 +5,12 @@
 
 Sim::Sim()
     : window(sf::VideoMode(CONFIG_VIDEO_WIDTH, CONFIG_VIDEO_HEIGHT), "Balls on Balls on Balls"),
-    border(CONFIG_BORDER_TOPLEFT, CONFIG_BORDER_DIM , CONFIG_BORDER_THICKNESS),
     FRAME_TIME(sf::seconds(CONFIG_60FPS)),
     spawn_clock(0.f),
     active_ball_count(0),
     color(),
     stat(),
-    grid(CONFIG_VIDEO_WIDTH, CONFIG_VIDEO_HEIGHT, static_cast<int>(CONFIG_BALL_RADIUS), border)
+    grid(CONFIG_VIDEO_WIDTH, CONFIG_VIDEO_HEIGHT, static_cast<int>(CONFIG_BALL_RADIUS))
 {
     balls = new Ball[CONFIG_MAX_BALLS]();
     window.setPosition({ 100, 0 });
@@ -84,7 +83,6 @@ void Sim::Update(float dt)
     for (int i{ 0 }; i < active_ball_count; ++i)
     {
         balls[i].Update(dt);
-        balls[i].TestCollision(border);
     }
 
     grid.Clear();
@@ -110,7 +108,6 @@ void Sim::Display()
 {
     window.clear();
 
-    border.Display(window);
     stat.Display(window);
 
     for (int i{ 0 }; i < CONFIG_MAX_BALLS; ++i)

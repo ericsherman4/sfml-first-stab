@@ -1,7 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Ball.h"
-#include "Border.h"
 #include "ColorSM.h"
 #include "Config.h"
 #include "Statistics.h"
@@ -25,7 +24,6 @@ private:
     ColorSM color;
     sf::RenderWindow window; 
     Ball * balls;
-    Border border;
     Statistics stat;
     Grid grid;
 };

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "Border.h"
 #include "Config.h"
 
 class Ball
@@ -13,7 +12,6 @@ public:
     void Init(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color color);
     void Display(sf::RenderWindow & window);
     void Update(float dt);
-    void TestCollision(const Border& border);
     void TestCollision(Ball * other_ball);
     bool GetInitialized();
 

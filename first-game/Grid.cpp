@@ -1,12 +1,11 @@
 #include "Grid.h"
 #include "assert.h"
 
-Grid::Grid(int width, int height, int radius, Border & border_in)
+Grid::Grid(int width, int height, int radius)
     : DIAMETER(radius*2)
     , WIDTH(width/ DIAMETER)
     , HEIGHT(height/ DIAMETER)
     , LENGTH ( WIDTH * HEIGHT)
-    , border(border_in)
 {
     grid = new Unit[LENGTH];
 }
@@ -93,7 +92,6 @@ void Grid::CheckCellsCollisions(Unit& unit_1, Unit& unit_2)
             if (unit_1.balls[i] != unit_2.balls[j])
             {
                 unit_1.balls[i]->TestCollision(unit_2.balls[j]);
-                //unit_1.balls[i]->TestCollision(border);
             }
         }
     }

@@ -69,14 +69,30 @@ void Grid::CheckSurroundingCells(int x_in, int y_in)
     {
         return;
     }
-    for (int y{ y_in +1 }; y >= y_in - 1; --y)
-    {
-        for (int x{ x_in -1 }; x <= x_in + 1; ++x)
-        {
-            Unit & other_cell = grid[GetGridPos(x, y)];
-            CheckCellsCollisions(current_cell, other_cell);
-        }
-    }
+    //for (int y{ y_in +1 }; y >= y_in - 1; --y)
+    //{
+    //    for (int x{ x_in -1 }; x <= x_in + 1; ++x)
+    //    {
+    //        Unit & other_cell = grid[GetGridPos(x, y)];
+    //        CheckCellsCollisions(current_cell, other_cell);
+    //    }
+    //}
+
+    // doing middle, then bottom, then top seemed to have fixed the problem inrerestingly enough
+    // why...
+    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in, y_in - 1)]);
+    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in, y_in)]);
+    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in, y_in+1)]);
+    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in -1 , y_in - 1)]);
+    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in -1 , y_in)]);
+    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in -1, y_in + 1)]);
+    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in +1, y_in - 1)]);
+    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in +1 , y_in)]);
+    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in + 1, y_in + 1)]);
+
+
+
+    
 }
 
 void Grid::CheckCellsCollisions(Unit& unit_1, Unit& unit_2)

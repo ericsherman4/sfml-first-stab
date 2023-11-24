@@ -50,53 +50,42 @@ void Grid::Clear()
     }
 }
 
-
 void Grid::FindCollisions()
 {
+
     for (int y{ HEIGHT - 1 }; y > 0; --y)
     {
         for (int x{ 1 }; x < WIDTH - 1; ++x)
         {
-            CheckSurroundingCells(x, y);
+            Unit &current_cell = grid[GetGridPos(x, y)];
+            if (current_cell.size == 0)
+            {
+                continue;
+            }
+
+            // doing middle, then bottom, then top seemed to have fixed the problem inrerestingly enough
+            // why...
+            CheckCellsCollisions(current_cell, grid[GetGridPos(x, y - 1)]);
+            CheckCellsCollisions(current_cell, grid[GetGridPos(x, y)]);
+            CheckCellsCollisions(current_cell, grid[GetGridPos(x, y+1)]);
+            CheckCellsCollisions(current_cell, grid[GetGridPos(x -1 , y - 1)]);
+            CheckCellsCollisions(current_cell, grid[GetGridPos(x -1 , y)]);
+            CheckCellsCollisions(current_cell, grid[GetGridPos(x -1, y + 1)]);
+            CheckCellsCollisions(current_cell, grid[GetGridPos(x +1, y - 1)]);
+            CheckCellsCollisions(current_cell, grid[GetGridPos(x +1 , y)]);
+            CheckCellsCollisions(current_cell, grid[GetGridPos(x + 1, y + 1)]);
         }
     }
-}
 
-void Grid::CheckSurroundingCells(int x_in, int y_in)
-{
-    Unit &current_cell = grid[GetGridPos(x_in, y_in)];
-    if (current_cell.size == 0)
-    {
-        return;
-    }
-    //for (int y{ y_in +1 }; y >= y_in - 1; --y)
-    //{
-    //    for (int x{ x_in -1 }; x <= x_in + 1; ++x)
-    //    {
-    //        Unit & other_cell = grid[GetGridPos(x, y)];
-    //        CheckCellsCollisions(current_cell, other_cell);
-    //    }
-    //}
-
-    // doing middle, then bottom, then top seemed to have fixed the problem inrerestingly enough
-    // why...
-    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in, y_in - 1)]);
-    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in, y_in)]);
-    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in, y_in+1)]);
-    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in -1 , y_in - 1)]);
-    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in -1 , y_in)]);
-    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in -1, y_in + 1)]);
-    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in +1, y_in - 1)]);
-    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in +1 , y_in)]);
-    CheckCellsCollisions(current_cell, grid[GetGridPos(x_in + 1, y_in + 1)]);
-
-
-
-    
 }
 
 void Grid::CheckCellsCollisions(Unit& unit_1, Unit& unit_2)
 {
+    if (unit_2.size == 0)
+    {
+        return;
+    }
+
     for (int i{ 0 }; i < unit_1.size; ++i)
     {
         for (int j{ 0 }; j < unit_2.size; ++j)

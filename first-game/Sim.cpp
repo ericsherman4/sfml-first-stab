@@ -38,10 +38,6 @@ void Sim::Run()
         {   
             fps_limit_reached = (++num_over) > 30;
         }
-        else
-        {
-            num_over = 0;
-        }
         while (timeSinceLastUpdate > FRAME_TIME)
         {
             stat.Log_Clock();
@@ -51,11 +47,12 @@ void Sim::Run()
             {
                 Update(update_dt);
             }
+            Display();
             stat.Log_Clock();
             stat.CalculateStats(timeSinceLastUpdate.asSeconds(), active_ball_count);
             timeSinceLastUpdate -= FRAME_TIME;
         }
-        Display();
+
     }
 }
 

@@ -15,6 +15,5 @@ private:
     sf::Clock clock;
     float sim_time;
     float update_time;
-    std::size_t num_frames;
 };
 

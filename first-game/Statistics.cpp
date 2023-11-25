@@ -27,8 +27,7 @@ void Statistics::CalculateStats(float dt, int ball_count)
     if (update_time > CONFIG_STATISTICS_PRINT_INTERVAL)
     {
         text.setString(
-            "FPS: " + std::to_string(1.f / sim_time)
-            + "\nSim Time: " + std::to_string(sim_time) 
+            "Sim Time: " + std::to_string(sim_time) 
             + "\nBall Count: " + std::to_string(ball_count)
         );
         update_time -= CONFIG_STATISTICS_PRINT_INTERVAL;

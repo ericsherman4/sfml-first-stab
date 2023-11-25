@@ -19,6 +19,7 @@ Sim::Sim()
 void Sim::Run()
 {
     sf::Clock clock;
+    sf::Clock clock2;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     spawn_clock = timeSinceLastUpdate.asSeconds();
     // TODO: there is an even better way than this but implementation dependent
@@ -47,11 +48,13 @@ void Sim::Run()
             {
                 Update(update_dt);
             }
-            Display();
             stat.Log_Clock();
-            stat.CalculateStats(timeSinceLastUpdate.asSeconds(), active_ball_count);
+            stat.CalculateStats(clock2.restart().asSeconds(), active_ball_count);
             timeSinceLastUpdate -= FRAME_TIME;
         }
+
+        Display();
+
 
     }
 }

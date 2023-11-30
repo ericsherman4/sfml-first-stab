@@ -80,12 +80,9 @@ void Ball::TestCollision(Ball * other_ball)
     float length_sq = diff.x * diff.x + diff.y * diff.y;
     static const float DIAMETER_SQ = RADIUS * 4 * RADIUS;
     static const float DIAMETER = 2 * RADIUS;
-    // some super cool shit happens if you do the line below
-    //if (length < (DOUBLE_RAD - 0.1))
-    //if (length < (DOUBLE_RAD + 0.1)) EVEN COOLER SHIT HAPPENS WITH THIS
-    //if(length < DOUBLE_RAD && length > 0.1) //how does restricting the length help? if length is somehow negative then it would actually move the balls into each other right? cant actually confirm that this helps
     assert(length >= 0.f);
-    if(length_sq < DIAMETER_SQ)
+    //if (length_sq < (DIAMETER_SQ -4) ) // fizzy version
+    if(length_sq < (DIAMETER_SQ +7)) // merging version
     {
         //ball.setFillColor(sf::Color::Green);
         // diff is from center to center.

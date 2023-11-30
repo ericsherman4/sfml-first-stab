@@ -19,7 +19,6 @@ Sim::Sim()
 void Sim::Run()
 {
     sf::Clock clock;
-    sf::Clock clock2;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     spawn_clock = timeSinceLastUpdate.asSeconds();
     // TODO: there is an even better way than this but implementation dependent
@@ -35,21 +34,23 @@ void Sim::Run()
     while (window.isOpen())
     {
         timeSinceLastUpdate += clock.restart();
+
         if (timeSinceLastUpdate.asSeconds() > FPS_LIMIT)
         {   
             fps_limit_reached = (++num_over) > 30;
         }
         while (timeSinceLastUpdate > FRAME_TIME)
         {
-            stat.Log_Clock();
             ProcessEvents();
 
+            stat.Log_Clock();
             for (int i = 0; i < CONFIG_NUM_SUBSTEPS; ++i)
             {
                 Update(update_dt);
             }
             stat.Log_Clock();
-            stat.CalculateStats(clock2.restart().asSeconds(), active_ball_count);
+            stat.CalculateStats(timeSinceLastUpdate.asSeconds(), active_ball_count);
+
             timeSinceLastUpdate -= FRAME_TIME;
         }
 

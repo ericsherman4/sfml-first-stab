@@ -9,7 +9,10 @@ private:
 
 public:
     Ball();
-    void Init(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color color);
+    Ball(const Ball& other) = default;
+    Ball& operator=(const Ball& other) = default;
+    Ball(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color color);
+    void Activate();
     void Display(sf::RenderWindow & window);
     void Update(float dt);
     void TestCollision(Ball * other_ball);

@@ -12,8 +12,25 @@ Sim::Sim()
     grid(CONFIG_VIDEO_WIDTH, CONFIG_VIDEO_HEIGHT, static_cast<int>(CONFIG_BALL_RADIUS)),
     fps_limit_reached(false)
 {
-    balls = new Ball[CONFIG_MAX_BALLS]();
     window.setPosition({ 100, 0 });
+
+    // Initialize all balls
+    // https://www.geeksforgeeks.org/how-to-initialize-array-of-objects-with-parameterized-constructors-in-c/
+    balls = new Ball[CONFIG_MAX_BALLS];
+
+    for (int j = 0; j < CONFIG_MAX_BALLS;)
+    {
+        for (int i = 0; i < CONFIG_NUM_BALL_SOURCES; i++)
+        {
+            color.Run();
+            const float y_pos = CONFIG_SPAWN_START_Y + (i * Ball::RADIUS * CONFIG_SPAWN_Y_SPACING_FACTOR);
+            balls[j++] = Ball(
+                { CONFIG_SPAWN_START_X - (i * 0.1f), CONFIG_SPAWN_START_Y + y_pos },
+                { CONFIG_SPAWN_START_X - (i * 0.1f) - CONFIG_SPAWN_X_VEL,
+                    CONFIG_SPAWN_START_Y + y_pos - CONFIG_SPAWN_Y_VEL },
+                color.GetColor());
+        }
+    }
 }
 
 void Sim::Run()
@@ -125,16 +142,11 @@ void Sim::Display()
 
 void Sim::SpawnBalls()
 {
-
     for (int i = 0; i < CONFIG_NUM_BALL_SOURCES; i++)
     {
-        color.Run();
-        const float y_pos = CONFIG_SPAWN_START_Y + (i * Ball::RADIUS * CONFIG_SPAWN_Y_SPACING_FACTOR);
-        balls[active_ball_count++].Init(
-            { CONFIG_SPAWN_START_X - (i * 0.1f), CONFIG_SPAWN_START_Y + y_pos },
-            { CONFIG_SPAWN_START_X - (i * 0.1f) - CONFIG_SPAWN_X_VEL,
-                CONFIG_SPAWN_START_Y + y_pos - CONFIG_SPAWN_Y_VEL },
-            color.GetColor());
+        balls[active_ball_count++].Activate();
     }
+
     spawn_clock = 0;
+
 }

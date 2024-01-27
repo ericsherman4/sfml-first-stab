@@ -15,6 +15,7 @@ private:
     void SpawnBalls();
 public:
     Sim();
+    ~Sim() = default;
     void Run();
 private:
 

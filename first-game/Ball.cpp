@@ -9,28 +9,29 @@ Ball::Ball()
     : initialized(false),
     ball() // circleshape object
 {
+    ball.setRadius(RADIUS);
+
+    // set the origin to be the center
+    // passed in value is offset from top left corner.
+    ball.setOrigin({ RADIUS, RADIUS });
 }
 
-void Ball::Init(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color color)
+Ball::Ball(sf::Vector2f center_pos, sf::Vector2f prev_pos_in, sf::Color color)
+    : Ball()
 {
-    if (!initialized)
-    {
-        ball.setRadius(RADIUS);
-        ball.setFillColor(color);
-        //ball.setOutlineThickness(2);
-        //ball.setOutlineColor(sf::Color::Red);
+    ball.setFillColor(color);
+    //ball.setOutlineThickness(2);
+    //ball.setOutlineColor(sf::Color::Red);
 
-        // set the origin to be the center
-        // passed in value is offset from top left corner.
-        ball.setOrigin({ RADIUS, RADIUS });
+    // Update position
+    curr_pos = center_pos;
+    prev_pos = prev_pos_in;
+}
 
-
-        // Update position
-        curr_pos = center_pos;
-        prev_pos = prev_pos_in;
-
-        initialized = true;
-    }
+void Ball::Activate()
+{
+    assert(initialized == false);
+    initialized = true;
 }
 
 void Ball::Display(sf::RenderWindow& window)
@@ -46,6 +47,7 @@ void Ball::Update(float dt)
     static const float width = CONFIG_BORDER_RIGHT;
     static const float top = CONFIG_BORDER_TOP;
     static const float left = CONFIG_BORDER_LEFT;
+
     // down the screen is positive. very annoying
     // but right is default positive.
     // invert y calculation and only y calculation. x is fine.
@@ -80,9 +82,10 @@ void Ball::TestCollision(Ball * other_ball)
     float length_sq = diff.x * diff.x + diff.y * diff.y;
     static const float DIAMETER_SQ = RADIUS * 4 * RADIUS;
     static const float DIAMETER = 2 * RADIUS;
-    assert(length >= 0.f);
+    assert(length_sq >= 0.f);
     //if (length_sq < (DIAMETER_SQ -4) ) // fizzy version
-    if(length_sq < (DIAMETER_SQ +7)) // merging version
+    //if(length_sq < (DIAMETER_SQ +7)) // merging version
+    if(length_sq < DIAMETER_SQ)
     {
         //ball.setFillColor(sf::Color::Green);
         // diff is from center to center.

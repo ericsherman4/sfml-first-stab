@@ -8,7 +8,7 @@ Statistics::Statistics()
     , clock()
     , sim_time(0.f)
 {
-    font.loadFromFile("Sansation.ttf");
+    font.loadFromFile(R"(..\resources\Sansation.ttf)");
     text.setFont(font);
     text.setString("");
     text.setCharacterSize(CONFIG_FONT_SIZE_PIX);

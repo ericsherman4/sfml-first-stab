@@ -18,4 +18,8 @@
     <ClInclude Include="inc\Unit.h" />
     <ClInclude Include="inc\Statistics.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\vertex_shader.glsl" />
+    <None Include="shaders\fragment_shader.glsl" />
+  </ItemGroup>
 </Project>
